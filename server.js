@@ -50,7 +50,16 @@ const findAllLinks = async (page, url, index) => {
                         name: link.innerText
                     })     
                 }
-            }  else {
+            }  else if (!link.href.includes('www.creighton.edu') || link.href.includes('migration-creighton-www-primary.pantheonsite.io')){
+                if(!link.target || link.target !== '_blank'){
+                    targetErrors.push({
+                        link: link.href,
+                        name: link.innerText
+                    })    
+                }else {
+                    allLinks.push(link.href)
+                }
+            }else {
                 targetErrors.push({
                     link: link.href,
                     name: link.innerText
