@@ -9,8 +9,7 @@ const puppeteer = require("puppeteer");
 // This displays message that the server running and listening to specified port
 app.listen(port, () => console.log(`Listening on port ${port}`)); //Line 6
 const urls = [
-  //add urls here
-
+    //add urls here
 ];
 const findAllLinks = async (page, url, index) => {
     await page.goto(url);
@@ -33,9 +32,7 @@ const findAllLinks = async (page, url, index) => {
             else if (link.href.includes('mailto') || link.href.includes('tel') || link.href.includes('#')|| link.href.includes('javascript')) {
                 invalidUrls.push(link.href)
             } 
-            else if(link.target === '_blank' || !link.target){
-                console.log(link.href + link.target)
-                if (link.href.includes('pdf')) {
+            else if (link.href.includes('pdf')) {
                     if(link.target==="_blank") {
                         allLinks.push(link.href)
                     }else {
