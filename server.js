@@ -19,11 +19,9 @@ const findAllLinks = async (page, url, index) => {
         const invalidUrls = []
         const targetErrors = []
 
-        if (index === 0) {
-            links = document.querySelectorAll('a');
-        }else {
+ 
             links = document.querySelectorAll('#block-creighton-content a');
-        }
+      
         const myRegex = new RegExp('^.*(doc|docx|dotx|gif|jpeg|jpg|mp4|xls|xlsm|xlsx|zip)$');
         links.forEach((link) => {
             if (myRegex.test(link.href)) {
@@ -32,29 +30,32 @@ const findAllLinks = async (page, url, index) => {
             else if (link.href.includes('mailto') || link.href.includes('tel') || link.href.includes('#')|| link.href.includes('javascript')) {
                 invalidUrls.push(link.href)
             } 
-            else if (link.href.includes('pdf')) {
-                    if(link.target==="_blank") {
+            else if(link.href.includes('pdf')){
+                if(link.target==="_blank") {
                         allLinks.push(link.href)
-                    }else {
+                }else {
                         targetErrors.push({
                             link: link.href,
                             name: link.innerText
                         })
-                    }
                 }
-                else if((link.href.includes('www.creighton.edu') || link.href.includes('migration-creighton-www-primary.pantheonsite.io')) && (!link.target || link.target === '_self')){
+                   
+            }
+            else if((link.href.includes('www.creighton.edu') || link.href.includes('migration-creighton-www-primary.pantheonsite.io'))){
+                if(!link.target || link.target === '_self'){
                     allLinks.push(link.href)
-                } else {
-                    console.log('i am an error ' + link.href)
+                }else{
                     targetErrors.push({
                         link: link.href,
                         name: link.innerText
-                    })
+                    })     
                 }
-            }
-            else {
-                allLinks.push(link.href)
-            }
+            }  else {
+                targetErrors.push({
+                    link: link.href,
+                    name: link.innerText
+                })           
+             }
         });
         const documents = document.querySelectorAll('img');
         documents.forEach((doc) => {
